@@ -16,4 +16,4 @@ variables which exist in the english language files. However it requires that
 the english language files are present. It might display english language in
 the middle of another language.
 
-Status: N/A
+Status: Proposed on Area51 http://area51.phpbb.com/phpBB/viewtopic.php?f=105&t=42873
