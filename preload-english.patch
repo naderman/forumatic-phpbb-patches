@@ -1,0 +1,41 @@
+diff --git phpBB/includes/session.php phpBB/includes/session.php
+index 4cdff1f..f854fee 100644
+--- phpBB/includes/session.php
++++ phpBB/includes/session.php
+@@ -1647,6 +1647,7 @@ class user extends session
+ 		$lang = &$this->lang;
+ 
+ 		// Do not suppress error if in DEBUG_EXTRA mode
++		$include_result = (defined('DEBUG_EXTRA')) ? (include $this->lang_path . "en/common.$phpEx") : (@include $this->lang_path . "en/common.$phpEx");
+ 		$include_result = (defined('DEBUG_EXTRA')) ? (include $this->lang_path . $this->lang_name . "/common.$phpEx") : (@include $this->lang_path . $this->lang_name . "/common.$phpEx");
+ 
+ 		if ($include_result === false)
+@@ -2051,6 +2052,8 @@ class user extends session
+ 		// - add appropriate variables here, name them as they are used within the language file...
+ 		if (!$use_db)
+ 		{
++			$preload = false;
++
+ 			if ($use_help && strpos($lang_file, '/') !== false)
+ 			{
+ 				$filename = dirname($lang_file) . '/help_' . basename($lang_file);
+@@ -2078,6 +2081,7 @@ class user extends session
+ 			}
+ 			else
+ 			{
++				$preload = $lang_path . 'en/' . $filename . '.' . $phpEx;
+ 				$language_filename = $lang_path . $this->lang_name . '/' . $filename . '.' . $phpEx;
+ 			}
+ 
+@@ -2109,6 +2113,11 @@ class user extends session
+ 				return;
+ 			}
+ 
++			if ($preload)
++			{
++				$include_result = (defined('DEBUG_EXTRA')) ? (include $preload) : (@include $preload);
++			}
++
+ 			// Do not suppress error if in DEBUG_EXTRA mode
+ 			$include_result = (defined('DEBUG_EXTRA')) ? (include $language_filename) : (@include $language_filename);
+ 
